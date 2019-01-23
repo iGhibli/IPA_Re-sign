@@ -28,3 +28,41 @@ This is a Shell script for macOS that can re-sign ipa.
 - 直接运行命令：`./resign.sh xxx_dir/xxx.ipa`
 
 > **Cautions:** 脚本执行时传入参数需为ipa文件的完整绝对路径。
+
+
+
+##### PS: `sigh resign`关于重签名有时候失败或者无法安装的情况说明
+
+1. 如果ipa 里面有除了系统之外的 `framework` 或者 `dylib` 的话，也需要先签名，不然也会导致签名后安装失败！至于 `sigh` 里面大致执行的脚本代码如下：
+
+```shell
+for framework in "$FRAMEWORKS_DIR"/*
+do
+	if [[ "$framework" == *.framework || "$framework" == *.dylib ]]
+	then
+		log "Resigning '$framework'"
+		# Must not qote KEYCHAIN_FLAG because it needs to be unwrapped and passed to codesign with spaces
+		# shellcheck disable=SC2086
+		/usr/bin/codesign ${VERBOSE} ${KEYCHAIN_FLAG} -f -s "$CERTIFICATE" "$framework"
+		checkStatus
+	else
+		log "Ignoring non-framework: $framework"
+	fi
+done
+```
+
+- 看得懂或者熟悉脚本的同学可以前往以下地址：
+
+```shell
+/usr/local/lib/ruby/gems/2.3.0/gems/sigh-2.0.1/lib/assets/resign.sh
+```
+> 版本号是根据自己当前 `sigh` 插件的版本号决定的。
+>
+> - 直接执行此脚本可以重签多 `target` 的 `ipa`：
+> ```shell
+> ./resign.sh YourApp.ipa "iPhone Distribution: YourCompanyOrDeveloperName" -p "bundel id"=.mobileprovision -p "bundel id"=.mobileprovision -p "bundel id"=.mobileprovision -p "bundel id"=.mobileprovision resignedYourApp.ipa
+> ```
+
+
+
+---
