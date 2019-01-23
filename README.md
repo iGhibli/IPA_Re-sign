@@ -9,7 +9,10 @@ This is a Shell script for macOS that can re-sign ipa.
 
 > **Description:** 一键自动重签ipa脚本。自动备存dis版本，自动生成debug版本。
 
-> **Cautions:** 下载下来的 `mobileprovision文件` 安装后必须拷贝一份放到`resign.sh`重签脚本的**同级目录**下。
+> **Cautions:**
+>
+> - 下载下来的 `mobileprovision文件` 安装后必须拷贝一份放到`resign.sh`重签脚本的**同级目录**下。
+> - 需要先将`resign.sh`重签脚本中的`XXXXXX`替换为**你的证书的十六进制串**（Signing Identity）。
 >
 > - App Store下载的包，需要先 [iOS逆向](http://iosre.com/) 砸壳，才能重签。
 

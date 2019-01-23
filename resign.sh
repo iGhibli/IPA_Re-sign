@@ -53,7 +53,7 @@ cd $debug_dir
 expect -c "
 spawn sigh resign
 expect {
-\"*Identity:\" {set timeout 300; send \"1512EBB207FF14227EFE1C8D60C7E09BB4E740D8\r\";}
+\"*Identity:\" {set timeout 300; send \"XXXXXX\r\";}
 }
 expect eof" 
 
